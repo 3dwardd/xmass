@@ -1,0 +1,73 @@
+/* --- Base layout --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: radial-gradient(circle at center, #001f3f, #000);
+  color: white;
+  text-align: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* --- Header --- */
+.header {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: gold;
+  margin-top: 30px;
+  text-shadow: 0 0 10px gold, 0 0 20px crimson;
+}
+
+/* --- Image box --- */
+.image-box {
+  position: relative;
+  margin: 40px auto 20px;
+  width: min(400px, 80vw);
+}
+#treeImage {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+#treeImage:hover {
+  transform: scale(1.05);
+}
+
+/* --- Sparkles --- */
+.sparkle-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.sparkle {
+  position: absolute;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, #fff 0%, gold 60%, transparent 100%);
+  box-shadow: 0 0 10px gold;
+  animation: sparkleFade 1s ease-out forwards;
+}
+@keyframes sparkleFade {
+  0% { transform: scale(0.5); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+/* --- Message box --- */
+.message-box {
+  margin-top: 20px;
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  color: #ffd260;
+  text-shadow: 0 0 8px #ffd260;
+}
+.message-box .note {
+  animation: fadeOut 5s ease forwards;
+}
+@keyframes fadeOut {
+  0% { opacity: 0; transform: translateY(10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
