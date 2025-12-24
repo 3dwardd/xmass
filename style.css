@@ -1,31 +1,68 @@
+/* Base layout */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
 body {
-  margin: 0;
-  height: 100%;
   font-family: 'Segoe UI', system-ui, Arial, sans-serif;
   background: radial-gradient(800px 400px at 50% -150px, #103055, #0a1e38 45%, #071528 100%);
   color: #fff;
-  text-align: center;
   overflow: hidden;
 }
 
-.hidden { display: none; }
+/* Screen containers */
+.screen {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.screen-center { /* initial screen is vertically centered */ }
+.hidden { display: none !important; }
 
 /* Input box */
 .input-box {
-  margin-top: 20vh;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.35);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35);
 }
+#nameInput {
+  padding: 10px 12px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  min-width: 240px;
+}
+#startBtn {
+  padding: 10px 16px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  background: #ffd260;
+  color: #2b1a0e;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ffd260;
+}
+#startBtn:hover { background: #ff3153; color: #fff; }
 
 /* Image box */
 .image-box {
   position: relative;
-  margin: 20px auto;
-  width: min(520px, 84vw);
+  width: min(560px, 90vw);
+  margin: 0 auto;
 }
 #sceneImage {
   width: 100%;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.45);
   cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
   transition: transform 200ms ease;
 }
 #sceneImage:hover { transform: scale(1.02); }
@@ -41,7 +78,7 @@ body {
   100% { transform: translateX(0); }
 }
 
-/* Sparkles */
+/* Sparkles overlay */
 .sparkle-layer { position: absolute; inset: 0; pointer-events: none; }
 .sparkle {
   position: absolute;
@@ -55,40 +92,55 @@ body {
   100% { transform: scale(2); opacity: 0; }
 }
 
-/* Messages */
-.message-area { min-height: 54px; margin: 12px auto; }
+/* Message area */
+.message-area {
+  min-height: 54px;
+  margin-top: 12px;
+  width: min(680px, 92vw);
+  text-align: center;
+}
 .note {
   display: inline-block;
   padding: 10px 14px;
   border-radius: 14px;
   background: rgba(0,0,0,0.45);
+  color: #fff;
   text-shadow: 0 0 8px #fff;
+  font-size: clamp(1rem, 3.4vw, 1.2rem);
   animation: riseFade 5000ms ease forwards;
 }
 @keyframes riseFade {
-  0% { opacity: 0; transform: translateY(10px); }
-  10% { opacity: 1; transform: translateY(0); }
+  0% { opacity: 0; transform: translateY(10px) scale(0.98); }
+  10% { opacity: 1; transform: translateY(0) scale(1); }
   85% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 0; transform: translateY(-10px) scale(0.98); }
 }
 
 /* Final greeting */
 .final-greeting {
-  font-size: clamp(2rem, 8vw, 5rem);
+  font-size: clamp(2rem, 10vw, 6rem);
   color: #ffd260;
   text-shadow: 0 0 20px #ff3153, 0 0 40px #ffd260;
-  margin-top: 20vh;
+  margin: 0;
+  text-align: center;
 }
 
 /* Snow effect */
-.snow-container { position: fixed; inset: 0; pointer-events: none; }
+.snow-container { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
 .snowflake {
   position: absolute;
   top: -10px;
   color: #fff;
-  font-size: 1em;
-  animation: fall linear forwards;
+  will-change: transform, opacity;
+  animation-name: fall, drift;
+  animation-timing-function: linear, ease-in-out;
+  animation-fill-mode: forwards;
 }
 @keyframes fall {
   to { transform: translateY(100vh); opacity: 0; }
+}
+@keyframes drift {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(20px); }
+  100% { transform: translateX(0); }
 }
