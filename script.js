@@ -15,7 +15,7 @@ let imgIndex = 0;          // Image cycler index
 
 /* Optional: rotate through multiple images (add these files to your repo) */
 const images = [
-  'xmas1.png',
+  'xmasbg.png',
   'xmas2.png',
   'xmas3.png'
 ];
@@ -41,7 +41,7 @@ startBtn.addEventListener('click', () => {
   const name = nameInput.value.trim();      // Read name
   if (!name) return;                        // Ignore empty
 
-  greeting.innerHTML = `✨🌟 Merry Christmas, <strong>${escapeHTML(name)}</strong>! 🌟✨`; // Personalized
+  greeting.innerHTML = `✨ Merry Christmas, <strong>${escapeHTML(name)}</strong>! ✨`; // Personalized
   inputBox.classList.add('fade-out');       // Animate panel out
   setTimeout(() => { inputBox.style.display = 'none'; }, 360); // Remove after fade
   hint.classList.add('show');               // Show “Press the image ✨”
