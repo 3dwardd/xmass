@@ -7,26 +7,30 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Name input -->
-  <div id="inputBox" class="input-box">
-    <input type="text" id="nameInput" placeholder="Enter your name..." />
-    <button id="startBtn">Start</button>
+  <!-- Initial screen: centered name input -->
+  <div id="inputScreen" class="screen screen-center">
+    <div id="inputBox" class="input-box">
+      <input type="text" id="nameInput" placeholder="Enter your name..." />
+      <button id="startBtn">Start</button>
+    </div>
   </div>
 
-  <!-- Interactive image box -->
-  <div id="imageBox" class="image-box hidden">
-    <img id="sceneImage" src="studio1.png" alt="Christmas scene" /> <!-- Corrected filename -->
-    <div id="sparkleLayer" class="sparkle-layer"></div>
+  <!-- Interactive image box (hidden until name is entered) -->
+  <div id="imageScreen" class="screen hidden">
+    <div id="imageBox" class="image-box">
+      <img id="sceneImage" src="studio1.png" alt="Christmas scene" />
+      <div id="sparkleLayer" class="sparkle-layer" aria-hidden="true"></div>
+    </div>
+    <div id="messageArea" class="message-area" aria-live="polite"></div>
   </div>
 
-  <!-- Message area -->
-  <div id="messageArea" class="message-area"></div>
+  <!-- Final greeting screen -->
+  <div id="finalScreen" class="screen hidden">
+    <h1 id="finalGreeting" class="final-greeting"></h1>
+  </div>
 
-  <!-- Final greeting -->
-  <h1 id="finalGreeting" class="final-greeting hidden"></h1>
-
-  <!-- Snow container -->
-  <div id="snowContainer" class="snow-container"></div>
+  <!-- Snow container on top of all screens -->
+  <div id="snowContainer" class="snow-container" aria-hidden="true"></div>
 
   <script src="script.js"></script>
 </body>
