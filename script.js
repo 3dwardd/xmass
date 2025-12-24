@@ -1,114 +1,115 @@
-/* DOM references */
-const greeting   = document.getElementById('greeting');     // “Merry Christmas, NAME!”
-const sceneImage = document.getElementById('sceneImage');   // Interactive image
-const sparkleLayer = document.getElementById('sparkleLayer'); // Sparkles overlay
-const messageArea  = document.getElementById('messageArea');  // Ephemeral message container
-const inputBox   = document.getElementById('inputBox');     // Name input panel
-const nameInput  = document.getElementById('nameInput');    // Name field
-const startBtn   = document.getElementById('startBtn');     // Start button
-const hint       = document.getElementById('hint');         // “Press the image ✨”
+const inputBox = document.getElementById('inputBox');
+const nameInput = document.getElementById('nameInput');
+const startBtn = document.getElementById('startBtn');
+const imageBox = document.getElementById('imageBox');
+const sceneImage = document.getElementById('sceneImage');
+const sparkleLayer = document.getElementById('sparkleLayer');
+const messageArea = document.getElementById('messageArea');
+const finalGreeting = document.getElementById('finalGreeting');
+const snowContainer = document.getElementById('snowContainer');
 
-/* State */
-let started = false;       // Interaction enabled after name entered
-let msgIndex = 0;          // Message cycler index
-let imgIndex = 0;          // Image cycler index
+let userName = "";
+let imgIndex = 0;
+let msgIndex = 0;
+let started = false;
+let snowSpeed = 5000; // default fall duration
 
-/* Optional: rotate through multiple images (add these files to your repo) */
 const images = [
-  'xmasbg.png',
-  'xmas2.png',
-  'xmas3.png'
+  "studio1.png", // corrected first image
+  "xmas2.png",
+  "xmas3.png",
+  "xmas4.png",
+  "xmas5.png",
+  "xmas6.png",
+  "xmas7.png"
 ];
 
-/* Wonderful, joyful messages (10+) */
 const messages = [
-  "You make this Christmas season unforgettable.",
-  "Your smile is the brightest star in my winter sky.",
-  "May joy wrap you up like the coziest holiday blanket.",
-  "You’re the warm glow that lights up this night.",
-  "Every snowflake feels happier because of you.",
-  "Hope your heart twinkles like the star on top.",
-  "You’re the gift that makes this season magical.",
-  "Wishing you laughter, warmth, and wonder tonight.",
-  "Your kindness is the sweetest Christmas story.",
-  "You light up the season in the most wonderful way.",
-  "May love find you like snow finds rooftops — softly and surely.",
-  "Thank you for being my favorite Christmas miracle."
+  "Hi!, Meeting you last November was so unexpected — and it truly felt like a gift.",
+  "Your energy is one of a kind, and it always leaves a mark.",
+  "I admire the way you carry yourself with such attitude, positivity and honesty.",
+  "I’m grateful for the chance to know you better.",
+  "That 1st hangout was so far the best and I’ve genuinely enjoyed.",
+  "I want you to know more but I’ll always respect your privacy and the space you need.",
+  "looking forward to more hangouts together! if possible.. :)"
 ];
 
-/* Start: capture name, personalize header, fade away input, show hint */
+// Start button
 startBtn.addEventListener('click', () => {
-  const name = nameInput.value.trim();      // Read name
-  if (!name) return;                        // Ignore empty
-
-  greeting.innerHTML = `✨ Merry Christmas, <strong>${escapeHTML(name)}</strong>! ✨`; // Personalized
-  inputBox.classList.add('fade-out');       // Animate panel out
-  setTimeout(() => { inputBox.style.display = 'none'; }, 360); // Remove after fade
-  hint.classList.add('show');               // Show “Press the image ✨”
-  started = true;                           // Enable interactions
+  userName = nameInput.value.trim();
+  if (!userName) return;
+  inputBox.classList.add('hidden');
+  imageBox.classList.remove('hidden');
+  started = true;
 });
 
-/* Image interaction: shake, sparkles, message, rotate image */
-sceneImage.addEventListener('pointerdown', (e) => {
-  if (!started) return;             // Only after start
-  e.preventDefault();               // Mobile-friendly
+// Image click
+sceneImage.addEventListener('click', (e) => {
+  if (!started) return;
 
-  // 1) Shake
+  // Shake
+  sceneImage.classList.remove('shake');
+  void sceneImage.offsetWidth;
   sceneImage.classList.add('shake');
-  setTimeout(() => sceneImage.classList.remove('shake'), 460);
 
-  // 2) Sparkles at tap point
+  // Sparkles
   createSparkles(e);
 
-  // 3) Show a wonderful message (fades out after 5s)
-  showMessage();
-
-  // 4) Rotate to next image (if you added multiple)
-  imgIndex = (imgIndex + 1) % images.length;
-  sceneImage.src = images[imgIndex];
+  // Show message
+  if (msgIndex < messages.length) {
+    showMessage(messages[msgIndex]);
+    msgIndex++;
+    imgIndex = (imgIndex + 1) % images.length;
+    sceneImage.src = images[imgIndex];
+  } else if (msgIndex === messages.length) {
+    // Hide image and message
+    imageBox.classList.add('hidden');
+    messageArea.innerHTML = "";
+    msgIndex++;
+  } else {
+    // Final greeting
+    finalGreeting.textContent = `✨ MERRY CHRISTMAS, ${userName}! ✨`;
+    finalGreeting.classList.remove('hidden');
+    startSnow();
+  }
 });
 
-/* Sparkle burst near tap position */
+// Sparkles
 function createSparkles(e) {
-  const rect = sceneImage.getBoundingClientRect();  // Image bounds
-  const x = e.clientX - rect.left;                  // Tap X inside image
-  const y = e.clientY - rect.top;                   // Tap Y inside image
+  const rect = sceneImage.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
 
-  for (let i = 0; i < 12; i++) {                    // 12 sparkles feels lively
-    const s = document.createElement('div');        // Create sparkle
+  for (let i = 0; i < 12; i++) {
+    const s = document.createElement('div');
     s.className = 'sparkle';
-
-    // Random direction and distance
     const angle = Math.random() * Math.PI * 2;
     const radius = 10 + Math.random() * 36;
     const size = 6 + Math.random() * 10;
-
     s.style.left = `${x + Math.cos(angle) * radius - size / 2}px`;
-    s.style.top  = `${y + Math.sin(angle) * radius - size / 2}px`;
+    s.style.top = `${y + Math.sin(angle) * radius - size / 2}px`;
     s.style.width = `${size}px`;
     s.style.height = `${size}px`;
-
     sparkleLayer.appendChild(s);
-    setTimeout(() => s.remove(), 1100);             // Cleanup
+    setTimeout(() => s.remove(), 1100);
   }
 }
 
-/* Show one message, fade away after 5 seconds */
-function showMessage() {
-  const note = document.createElement('div');     // Bubble element
+// Show message
+function showMessage(msg) {
+  const note = document.createElement('div');
   note.className = 'note';
-  note.textContent = messages[msgIndex % messages.length]; // Pick message
-  msgIndex++;                                     // Next for next tap
-
-  // Clear previous bubble before showing new one (keeps it clean)
+  note.textContent = msg;
   messageArea.innerHTML = '';
   messageArea.appendChild(note);
-  setTimeout(() => note.remove(), 5000);          // Auto-vanish
+  setTimeout(() => note.remove(), 5000);
 }
 
-/* Escape HTML for safe name display */
-function escapeHTML(str) {
-  const p = document.createElement('p');
-  p.innerText = str;
-  return p.innerHTML;
-}
+// Snow effect
+function startSnow() {
+  setInterval(() => {
+    const snowflake = document.createElement('div');
+    snowflake.className = 'snowflake';
+    snowflake.textContent = '❄';
+    snowflake.style.left = Math.random() * window.innerWidth + 'px';
+    snowflake.style.fontSize = (Math.random() * 1.5
