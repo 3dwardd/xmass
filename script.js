@@ -1,31 +1,27 @@
 // Elements
 const inputScreen = document.getElementById('inputScreen');
-const inputBox = document.getElementById('inputBox');
 const nameInput = document.getElementById('nameInput');
 const startBtn = document.getElementById('startBtn');
 
 const imageScreen = document.getElementById('imageScreen');
-const imageBox = document.getElementById('imageBox');
 const sceneImage = document.getElementById('sceneImage');
 const sparkleLayer = document.getElementById('sparkleLayer');
 const messageArea = document.getElementById('messageArea');
 
 const finalScreen = document.getElementById('finalScreen');
 const finalGreeting = document.getElementById('finalGreeting');
-
 const snowContainer = document.getElementById('snowContainer');
 
 // State
 let userName = "";
 let imgIndex = 0;
 let msgIndex = 0;
-let started = false;
 let snowInterval = null;
-let currentSnowDuration = 6000; // ms (slower at start)
+let currentSnowDuration = 6000; // ms (slow start)
 
 // Assets
 const images = [
-  "studio1.png",  // first requested
+  "studio1.png",
   "studio2.png",
   "studio3.png",
   "studio4.png",
@@ -37,65 +33,53 @@ const images = [
 const messages = [
   "Hi! Meeting you last November was unexpected",
   "Your energy is one of a kind, and it always leaves a mark.",
-  "I admire the way you carry yourself with such attitude,positivity and joy.",
-  "I’m grateful to get the chance to know you ",
+  "I admire the way you carry yourself with such attitude, positivity and joy.",
+  "I’m grateful to get the chance to know you",
   "The 1st hangout was so far the best and I genuinely enjoyed it",
   "I hope I can get the chance to be close with you, and promise that I’ll always respect your space and won't force anything.",
-  "looking forward to more moments hangouts if possible.."
+  "Looking forward to more moments and hangouts if possible.."
 ];
 
-// Preload images (helps avoid flashing on swap)
+// Preload images
 preloadImages(images);
 
 // Start: name capture
 startBtn.addEventListener('click', onStart);
-nameInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') onStart();
-});
+nameInput.addEventListener('keydown', e => { if (e.key === 'Enter') onStart(); });
 
 function onStart() {
   const name = nameInput.value.trim();
   if (!name) return;
   userName = name;
-
-  // Hide input screen and show image screen
   inputScreen.classList.add('hidden');
   imageScreen.classList.remove('hidden');
-  started = true;
 }
 
 // Image interaction
-sceneImage.addEventListener('pointerdown', (e) => {
-  if (!started) return;
+sceneImage.addEventListener('pointerdown', e => {
   e.preventDefault();
 
-  // Shake re-trigger
+  // Shake
   sceneImage.classList.remove('shake');
   void sceneImage.offsetWidth;
   sceneImage.classList.add('shake');
 
-  // Sparkles near pointer
+  // Sparkles
   createSparkles(e);
 
-  // Message + image rotation logic
+  // Messages + final greeting logic
   if (msgIndex < messages.length) {
     showMessage(messages[msgIndex]);
     msgIndex++;
     imgIndex = (imgIndex + 1) % images.length;
     sceneImage.src = images[imgIndex];
-  } else if (msgIndex === messages.length) {
-    // Hide image + messages after the 7th
+  } else {
+    // Final greeting stage (immediately after last message)
     imageScreen.classList.add('hidden');
     messageArea.innerHTML = '';
-    msgIndex++; // advance to final stage
-  } else {
-    // Final greeting stage
     finalGreeting.textContent = `✨ MERRY CHRISTMAS, ${escapeHTML(userName)}! ✨`;
     finalScreen.classList.remove('hidden');
-
-    // Start snow; subsequent taps speed it up
-    startSnow();
-    speedUpSnow();
+    startSnow(); // start slow
   }
 });
 
@@ -120,12 +104,12 @@ function createSparkles(e) {
   }
 }
 
-// Show message (allows one at a time; change to stacking by removing innerHTML = '')
+// Show message
 function showMessage(msg) {
   const note = document.createElement('div');
   note.className = 'note';
   note.textContent = msg;
-  messageArea.innerHTML = ''; // keep clean; show one
+  messageArea.innerHTML = ''; // one at a time
   messageArea.appendChild(note);
   setTimeout(() => note.remove(), 5000);
 }
@@ -162,7 +146,7 @@ function spawnSnowflake() {
 
   snowContainer.appendChild(flake);
 
-  // Cleanup after fall finishes
+  // Cleanup
   setTimeout(() => flake.remove(), Math.max(currentSnowDuration, driftDuration) + 200);
 }
 
