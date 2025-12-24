@@ -26,12 +26,12 @@ let currentSnowDuration = 6000; // ms (slower at start)
 // Assets
 const images = [
   "studio1.png",  // first requested
-  "xmas2.png",
-  "xmas3.png",
-  "xmas4.png",
-  "xmas5.png",
-  "xmas6.png",
-  "xmas7.png"
+  "studio2.png",
+  "studio3.png",
+  "studio4.png",
+  "studio5.png",
+  "studio6.png",
+  "studio7.png"
 ];
 
 const messages = [
