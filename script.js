@@ -35,13 +35,13 @@ const images = [
 ];
 
 const messages = [
-  "You make this Christmas season unforgettable.",
-  "Your smile is the brightest star in my winter sky.",
-  "May joy wrap you up like the coziest holiday blanket.",
-  "You’re the warm glow that lights up this night.",
-  "Every snowflake feels happier because of you.",
-  "Hope your heart twinkles like the star on top.",
-  "You’re the gift that makes this season magical."
+  "Hi! Meeting you last November was unexpected",
+  "Your energy is one of a kind, and it always leaves a mark.",
+  "I admire the way you carry yourself with such attitude,positivity and joy.",
+  "I’m grateful to get the chance to know you ",
+  "The 1st hangout was so far the best and I genuinely enjoyed it",
+  "I hope I can get the chance to be close with you, and promise that I’ll always respect your space and won't force anything.",
+  "looking forward to more moments hangouts if possible.."
 ];
 
 // Preload images (helps avoid flashing on swap)
